@@ -11,26 +11,36 @@ type UserInterface interface {
 	FullName() string
 }
 
-func (user User) SetFirstName(string) {
-
+func (user *User) SetFirstName(firstName string) {
+	user.firstName = firstName
 }
 
-func (user User) SetLastName(string) {
-
+func (user *User) SetLastName(lastName string) {
+	user.lastName = lastName
 }
 
-func (user User) FullName() string {
-	return ""
+func (user *User) FullName() string {
+	return user.firstName + " " + user.lastName
 }
 
-func ResetUser(input User) {
-
+func NewUser() *User {
+	return &User{}
 }
 
-func IsUser(input User) bool {
-	return true
+func ResetUser(input interface{}) {
+	if user, ok := input.(*User); ok {
+		user.firstName = ""
+		user.lastName = ""
+	}
+}
+
+func IsUser(input interface{}) bool {
+	_, ok := input.(*User)
+	return ok
 }
 
 func ProcessUser(input UserInterface) string {
-	return ""
+	input.SetFirstName(NewUser().firstName)
+	input.SetLastName(NewUser().lastName)
+	return input.FullName()
 }
