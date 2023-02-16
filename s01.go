@@ -40,7 +40,7 @@ func IsUser(input interface{}) bool {
 }
 
 func ProcessUser(input UserInterface) string {
-	input.SetFirstName(New().firstName)
-	input.SetLastName(New().lastName)
+	input.SetFirstName("")
+	input.SetLastName("")
 	return input.FullName()
 }
