@@ -1,5 +1,7 @@
 package structs
 
+import "reflect"
+
 type User struct {
 	firstName string
 	lastName  string
@@ -20,11 +22,11 @@ func (user *User) SetLastName(lastName string) {
 }
 
 func (user *User) FullName() string {
-	return user.firstName + " " + user.lastName
+	return user.lastName + " " + user.firstName
 }
 
-func New() *User {
-	return &User{
+func New() User {
+	return User{
 		firstName: "",
 		lastName:  "",
 	}
@@ -38,12 +40,15 @@ func ResetUser(input interface{}) {
 }
 
 func IsUser(input interface{}) bool {
-	_, ok := input.(*User)
-	return ok
+	user := User{}
+	if reflect.TypeOf(user) != reflect.TypeOf(input) {
+		return false
+	}
+	return true
 }
 
 func ProcessUser(input UserInterface) string {
-	input.SetFirstName(New().firstName)
-	input.SetLastName(New().lastName)
+	input.SetFirstName("")
+	input.SetLastName("")
 	return input.FullName()
 }
