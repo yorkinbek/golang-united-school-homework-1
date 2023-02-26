@@ -1,26 +1,45 @@
 package homework
 
 import (
+	"io/ioutil"
 	"strings"
 )
 
-/*
-SeekTillHalfOfString -  contains a code snippet in Go that defines a function called
-"SeekTillHalfOfString". The function takes a string reader as input,
-seeks to the middle of the string, reads
-half of the remaining string, and returns it as a string.
-*/
 func SeekTillHalfOfString(strReader *strings.Reader) string {
-	return ""
+
+	strLen := strReader.Len()
+
+	midPoint := strLen / 2
+
+	_, err := strReader.Seek(int64(midPoint), 0)
+	if err != nil {
+		panic(err)
+	}
+
+	remainingLen := strLen - midPoint
+	buf := make([]byte, remainingLen)
+	_, err = strReader.Read(buf)
+	if err != nil {
+		panic(err)
+	}
+
+	return string(buf)
 }
 
-/*
-ReaderSplit - contains a code snippet written in Go that
-defines a function called ReaderSplit.
-The function takes a strings.Reader and an integer n as input,
-and splits the contents of the reader into chunks of size n.
-The function returns a slice of strings containing the chunks
-*/
 func ReaderSplit(strReader *strings.Reader, n int) []string {
-	return []string{}
+	var chunks []string
+	buf, err := ioutil.ReadAll(strReader)
+	if err != nil {
+		panic(err)
+	}
+
+	for i := 0; i < len(buf); i += n {
+		end := i + n
+		if end > len(buf) {
+			end = len(buf)
+		}
+		chunks = append(chunks, string(buf[i:end]))
+	}
+
+	return chunks
 }
