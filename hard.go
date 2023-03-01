@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func GoalParser(strReader *strings.Reader) string {
+func GoalParsers(strReader *strings.Reader) string {
 	var result string
 	for {
 		r, _, err := strReader.ReadRune()
